@@ -11,7 +11,7 @@ class RecommendationUserModel(BaseModel):
 class RecommendationEventModel(BaseModel):
     id: str
     name: str
-    categories : List[str]
+    categories: List[str]
     tags: Optional[List[str]] = []
     # end_date: str
 

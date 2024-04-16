@@ -6,13 +6,9 @@ from src.config.core import settings
 from src.router.content_router import router as content_router
 from src.router.main_router import router as main_router
 from src.router.recommend_router import router as recommendation_router
+from src.router.related_items_router import router as related_items_router
 
 app = FastAPI(title=settings.PROJECT_NAME)
-
-# @app.on_event("startup")
-# def publish_message():
-#     # SentenceTransformer('clip-ViT-b-32') testing purpose only
-#     SentenceTransformer(mongodbCFG.CLIP_MODEL_NAME)
 
 origins = ["*"]
 
@@ -28,4 +24,4 @@ app.add_middleware(CorrelationIdMiddleware)
 app.include_router(router=main_router)
 app.include_router(router=content_router)
 app.include_router(router=recommendation_router)
-# app.include_router(router=scene_search_router)
+app.include_router(router=related_items_router)

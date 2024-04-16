@@ -2,7 +2,7 @@ import json
 
 from tenacity import retry, stop_after_attempt, stop_after_delay, wait_fixed
 
-from src.config.constant import geminiAiCFG
+from src.config.constant import GeminiAiCFG
 from src.module.gemini.gemini_client import GeminiAI
 from src.module.gemini.prompts import (PROMPT_GENERATE_EVENT_CONTENT,
                                        PROMPT_GENERATE_EVENT_FAQ)
@@ -13,8 +13,8 @@ from src.utils.logger import logger
 def call_model_gen_content(prompt):
     logger.info("GENERATE EVENT CONTENT PROMPT:\n%s", prompt)
     gemini_client = GeminiAI(
-        API_KEY=geminiAiCFG.API_KEY,
-        API_MODEL=geminiAiCFG.API_MODEL
+        api_key=GeminiAiCFG.API_KEY,
+        api_model=GeminiAiCFG.API_MODEL
     )
     generated_content = gemini_client.generate_content_json(prompt)
     return generated_content

@@ -23,7 +23,7 @@ The response follow this json schema:
         "tags": {{
             "type": "array",
             "items": {{"type": "string"}},
-            "description": "5 keyword or tags that best describe the event".
+            "description": "5 keyword or tags that best describe the event, use English only".
         }}
     }}
 }}
