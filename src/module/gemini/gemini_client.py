@@ -4,9 +4,9 @@ import google.generativeai as genai
 
 class GeminiAI:
 
-    def __init__(self, API_KEY, API_MODEL):
-        genai.configure(api_key=API_KEY)
-        self.model = genai.GenerativeModel(API_MODEL)
+    def __init__(self, api_key, api_model):
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel(api_model)
 
     def generate_content(self, prompt: str):
         response = self.model.generate_content(prompt)
