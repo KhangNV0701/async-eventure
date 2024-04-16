@@ -106,7 +106,7 @@ def get_user_recommendation(user_id):
     logger.info(f"USER ID: {user_id}")
     logger.info(f"EVENT IDS: {recommendations}")
 
-    response_object = RecommendationItemResponse(item_list=recommendations)
+    # response_object = RecommendationItemResponse(item_list=recommendations)
 
     return {'STATUS': 'SUCCESS',
             'CONTENT': recommendations}
