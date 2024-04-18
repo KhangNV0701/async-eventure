@@ -9,3 +9,4 @@ neo4j==5.17.0
 gunicorn==21.2.0
 pandas==2.2.1
 pymongo==4.6.3
+pymilvus==2.4.0
