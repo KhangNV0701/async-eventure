@@ -3,6 +3,7 @@ from src.models.recommendation_model import (RecommendationEventResponse,
                                              RecommendationUserEventResponse,
                                              RecommendationUserResponse)
 from src.module.recommendation_system.neo4j_client import Neo4jClient
+from src.module.recommendation_system.neo4j_init import Neo4jInit
 from src.utils.logger import logger
 
 
@@ -110,3 +111,11 @@ def get_user_recommendation(user_id):
     # response_object = RecommendationItemResponse(item_list=recommendations)
 
     return {"STATUS": "SUCCESS", "CONTENT": recommendations}
+
+def init_neo4j():
+    logger.info("INIT NEO4J STARTING")
+    neo4j_init = Neo4jInit(url=Neo4jCFG.URL, username=Neo4jCFG.USERNAME, password=Neo4jCFG.PASSWORD)
+    neo4j_init.init_neo4j()
+    logger.info("INIT NEO4J COMPLETED")
+    
+    return {"STATUS": "SUCCESS", "CONTENT": "onichan baka"}

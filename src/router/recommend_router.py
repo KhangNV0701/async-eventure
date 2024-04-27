@@ -105,3 +105,14 @@ def get_user_recommendation_api(id: str) -> Dict[str, Any]:
         raise HTTPException(status_code=408, detail=err)
     except Exception as err:
         raise HTTPException(status_code=500, detail=err)
+
+@router.get(path="/init")
+def get_user_recommendation_api() -> Dict[str, Any]:
+    logger.info("API - Init Neo4j")
+    try:
+        response = recsys.init_neo4j()
+        return response
+    except TimeoutError as err:
+        raise HTTPException(status_code=408, detail=err)
+    except Exception as err:
+        raise HTTPException(status_code=500, detail=err)
