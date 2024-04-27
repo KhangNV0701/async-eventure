@@ -29,3 +29,10 @@ class ZillizCFG:
     ZILLIZDB_HOST = os.environ["ZILLIZDB_HOST"]
     ZILLIZDB_PORT = os.environ["ZILLIZDB_PORT"]
     ZILLIZDB_COLLECTION_NAME_RELATED_EVENT = os.environ["ZILLIZDB_COLLECTION_NAME_RELATED_EVENT"]
+
+class MysqlCFG:
+    MYSQL_HOST = os.environ["MYSQL_HOST"]
+    MYSQL_USER = os.environ["MYSQL_USER"]
+    MYSQL_PASSWORD = os.environ["MYSQL_PASSWORD"]
+    MYSQL_DATABASE = os.environ["MYSQL_DATABASE"]
+    MYSQL_PORT = os.environ["MYSQL_PORT"]

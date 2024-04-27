@@ -3,16 +3,16 @@ import pandas as pd
 from neo4j import GraphDatabase
 import mysql.connector
 from src.utils.logger import logger
-
+from src.config.constant import MysqlCFG
 class Neo4jInit:
     def __init__(self, url, username, password):
         self.driver = GraphDatabase.driver(url, auth=(username, password))
         self.connection = mysql.connector.connect(
-            host="localhost",
-            user="myuser",
-            password="mypassword",
-            database="eventure"
-            )
+            host=MysqlCFG.MYSQL_HOST,
+            user=MysqlCFG.MYSQL_USER,
+            password=MysqlCFG.MYSQL_PASSWORD,
+            database=MysqlCFG.MYSQL_DATABASE,
+            port=MysqlCFG.MYSQL_PORT)
     
     def init_neo4j(self):
         self.clear_all()
