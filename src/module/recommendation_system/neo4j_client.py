@@ -26,6 +26,9 @@ class Neo4jClient:
             - name (str)
             - tags (list of str)
         """
+        event['id'] = int(event['id'])
+        for i in range(len(event['categories'])):
+            event['categories'][i] = int(event['categories'][i])
         queries = [
             """
             MERGE (e: Event {id: $event.id})
@@ -60,7 +63,7 @@ class Neo4jClient:
             MATCH (e:Event {id: $event_id})
             DETACH DELETE e
             """
-        self.process_query(query=query, params={'event_id': event_id})
+        self.process_query(query=query, params={'event_id': int(event_id)})
 
     def upsert_user(self, user):
         """
@@ -94,7 +97,7 @@ class Neo4jClient:
                 query=query,
                 params={
                     'user_id': user['id'],
-                    'category_id': category_id
+                    'category_id': int(category_id)
                 }
             )
 
@@ -123,7 +126,7 @@ class Neo4jClient:
             WHERE NOT EXISTS((u)-[:VIEWED]->(e))
             CREATE (u)-[:VIEWED]->(e)
             """
-        self.process_query(query=query, params={'user_id': user_id, 'event_id': event_id})
+        self.process_query(query=query, params={'user_id': user_id, 'event_id': int(event_id)})
 
     def like_event(self, user_id, event_id):
         """
@@ -141,10 +144,10 @@ class Neo4jClient:
             """
         self.process_query(
             query=query,
-            params={'user_id': user_id, 'event_id': event_id}
+            params={'user_id': user_id, 'event_id': int(event_id)}
         )
 
-    def unfollow_event(self, user_id, event_id):
+    def unlike_event(self, user_id, event_id):
         """
         Remove LIKED edge between user and event in neo4j graph database
         when user likes an event
@@ -159,45 +162,8 @@ class Neo4jClient:
             """
         self.process_query(
             query=query,
-            params={'user_id': user_id, 'event_id': event_id}
+            params={'user_id': user_id, 'event_id': int(event_id)}
         )
-
-    def get_user_most_view_category(self, user_id):
-        """
-        Get user most view category based on view/follow actions.
-        Limit to 3 most categories
-        Args: user_id (str)
-        """
-        query = """
-            MATCH (u:User {id: $user_id}) - [:VIEWED|FOLLOWED] - (e:Event) - [:IN_CATEGORY] -> (c:Category)
-            WITH c.name AS category_name, count(c.id) AS event_count, c.id as category_id
-            ORDER BY event_count DESC
-            LIMIT 3
-            RETURN category_id, category_name, event_count;
-            """
-        with self.driver.session() as session:
-            k_most_categories = session.run(
-                query=query,
-                user_id=user_id
-            ).values()
-
-        return k_most_categories
-
-    def get_user_preferences(self, user_id):
-        """
-        Get user's favorite categories
-        Args: user_id (str)
-        """
-        query = """
-            MATCH (u:User {id:$user_id}) - [] -> (c:Category)
-            return c.id, c.name
-        """
-        with self.driver.session() as session:
-            fav_categories = session.run(
-                query=query,
-                user_id=user_id
-            ).values()
-        return fav_categories
 
     def get_recommendation(self, user_id, k = 20):
         """

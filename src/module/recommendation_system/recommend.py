@@ -20,13 +20,12 @@ def upsert_event(event):
     neo4j_client = call_neo4j_client()
     neo4j_client.upsert_event(event=event)
 
-    response_object = RecommendationEventResponse(event_id=event["id"])
+    response_object = RecommendationEventResponse(event_id=str(event["id"]))
 
     return {"STATUS": "SUCCESS", "CONTENT": response_object}
 
 
 def delete_event(event_id):
-    print(event_id, type(event_id))
     logger.info("DELETE EVENT")
     neo4j_client = call_neo4j_client()
     neo4j_client.delete_event(event_id=event_id)
@@ -92,7 +91,7 @@ def unlike_event(data):
     event_id = data["event_id"]
     logger.info("UNLIKE EVENT")
     neo4j_client = call_neo4j_client()
-    neo4j_client.unfollow_event(user_id=user_id, event_id=event_id)
+    neo4j_client.unlike_event(user_id=user_id, event_id=event_id)
 
     response_object = RecommendationUserEventResponse(
         event_id=event_id, user_id=user_id
